@@ -18,9 +18,8 @@ func main() {
 	var bEncode = flag.Bool("e", false, "Encode File")
 	flag.Parse()
 	var sInput = flag.Arg(0)
-
-	//	println(sInput)
-	//	println(*bEncode)
+	//test code
+	sInput = "vp.psite"
 
 	if sInput == "" {
 		//show help
@@ -28,10 +27,11 @@ func main() {
 		return
 	}
 	if *bEncode == false {
-		filemgr.SetViewFile(sInput)
-		defer filemgr.Close()
+		//		filemgr.SetViewFile(sInput)
+		//		defer filemgr.Close()
 		openbrowser("http://127.0.0.1:" + ListenPort)
-		Listen()
+		//		Listen()
+		filemgr.ServFile(sInput, ListenPort)
 	} else {
 		outname := flag.Arg(1)
 		if outname == "" {

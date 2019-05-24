@@ -15,10 +15,10 @@ var ListenPort = findport()
 
 func findport() string {
 	listener, err := net.Listen("tcp", ":0")
-	defer listener.Close()
 	if err != nil {
 		panic(err)
 	}
+	defer listener.Close()
 	return strconv.Itoa(listener.Addr().(*net.TCPAddr).Port)
 }
 

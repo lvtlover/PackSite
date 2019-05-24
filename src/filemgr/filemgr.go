@@ -3,7 +3,6 @@ package filemgr
 import (
 	"archive/zip"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -42,9 +41,21 @@ func ServeHTTP(w http.ResponseWriter, r *http.Request) bool {
 			if err != nil {
 				return false
 			}
-			_, err = io.Copy(w, rc)
+			//	var num int64
+			//	num, err = io.Copy(w, rc)
+
+			l := f.FileInfo().Size()
+			var buffer = make([]byte, l)
+
+			_, err = rc.Read(buffer)
 			if err != nil {
-				log.Fatal(err)
+				log.Println(err)
+			}
+			contentType := http.DetectContentType(buffer)
+			w.Header().Set("Content-type", contentType)
+			w.Write(buffer)
+			if err != nil {
+				log.Println(err)
 			}
 			rc.Close()
 			return true
